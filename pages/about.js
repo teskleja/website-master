@@ -17,12 +17,21 @@ const About = () => (
     <VStack spacing={12} mt={6}>
       <Section>
         <VStack align="start" spacing={6}>
-          <Text>
-            I’m an amateur writer who simply enjoys putting thoughts into words.
-          </Text>
-          <Text>
-            I write about things I notice, questions I have, and ideas that stay in my head a little too long.
-          </Text>
+<Text>
+  I’m just someone who enjoys turning thoughts into words. I write about random things I notice, questions I can’t ignore, and ideas that stick longer than they should.
+</Text>
+
+<Text>
+  I’ve been getting into stoicism and life philosophy lately. It helps me stay calm and see life as an ongoing lesson. In the end, I just try to stay grateful and enjoy the ride.
+</Text>
+
+<Text>
+  I’m also a tech nerd — especially when it comes to smartphones. I love seeing how fast things evolve and how technology shapes everyday life.
+</Text>
+
+<Text>
+  And yeah, I love photography. Even with simple gear, I enjoy capturing moments. Hopefully I’ll upgrade someday, but for now, it’s more about how I see things than what I use.
+</Text>
         </VStack>
       </Section>
 
