@@ -44,16 +44,22 @@ export default function Blog({ posts }) {
 export async function getStaticProps() {
   const parser = new Parser();
 
-  const feed = await parser.parseURL(
-    "https://medium.com/feed/@panjiariyo"
-  );
+  let posts = [];
 
-  const posts = feed.items.map((item) => ({
-    id: item.guid,
-    title: item.title,
-    link: item.link,
-    publishDate: item.pubDate,
-  }));
+  try {
+    const feed = await parser.parseURL(
+      "https://medium.com/feed/@panjiariyo"
+    );
+
+    posts = feed.items.map((item) => ({
+      id: item.guid,
+      title: item.title,
+      link: item.link,
+      publishDate: item.pubDate,
+    }));
+  } catch (error) {
+    console.log("RSS fetch failed:", error);
+  }
 
   return {
     props: {

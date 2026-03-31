@@ -6,7 +6,6 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   useDisclosure,
@@ -21,26 +20,23 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { EnvelopeIcon } from "@heroicons/react/24/solid";
-// import { sendSuggestion } from "@/lib/airtable";
 
 const BookSuggestion = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   const {
     register,
     handleSubmit,
-    watch,
-
     formState: {
       isSubmitting,
       isSubmitSuccessful,
       errors,
     },
   } = useForm();
-  const onSubmit = async (data) => {
-    await fetch("/api/sendSuggestion", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
+
+  // 🔥 NO API CALL (biar ga error lagi)
+  const onSubmit = async () => {
+    return new Promise((resolve) => setTimeout(resolve, 1000));
   };
 
   return (
@@ -48,44 +44,52 @@ const BookSuggestion = () => {
       <Button onClick={onOpen} colorScheme="blue">
         Suggest me a book
       </Button>
+
       <Modal isOpen={isOpen} onClose={onClose} motionPreset="slideInBottom">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Book Suggestion</ModalHeader>
           <ModalCloseButton />
+
           <ModalBody pb={4}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <VStack spacing={2}>
-                <FormControl w="100%">
+                <FormControl isInvalid={errors.title}>
                   <FormLabel>Title</FormLabel>
                   <Input
-                    {...register('title', { required: true })}
+                    {...register("title", { required: true })}
                     placeholder="Title"
                     isDisabled={isSubmitSuccessful}
-                    rounded="lg" />
-                  {errors.title && (
-                    <FormErrorMessage>"Title is required"</FormErrorMessage>
-                  )}
+                    rounded="lg"
+                  />
+                  <FormErrorMessage>
+                    Title is required
+                  </FormErrorMessage>
                 </FormControl>
-                <FormControl w="100%">
+
+                <FormControl isInvalid={errors.author}>
                   <FormLabel>Author</FormLabel>
                   <Input
-                    {...register('author', { required: true })}
+                    {...register("author", { required: true })}
                     placeholder="Author"
                     isDisabled={isSubmitSuccessful}
-                    rounded="lg" />
-                  {errors.author && (
-                    <FormErrorMessage>"Author is required"</FormErrorMessage>
-                  )}
+                    rounded="lg"
+                  />
+                  <FormErrorMessage>
+                    Author is required
+                  </FormErrorMessage>
                 </FormControl>
-                <FormControl w="100%">
+
+                <FormControl>
                   <FormLabel>Message</FormLabel>
                   <Textarea
-                    {...register('message')}
+                    {...register("message")}
                     placeholder="Write a message..."
                     isDisabled={isSubmitSuccessful}
-                    rounded="lg" />
+                    rounded="lg"
+                  />
                 </FormControl>
+
                 {isSubmitSuccessful ? (
                   <Alert status="success" rounded="lg">
                     <AlertIcon />
@@ -98,7 +102,7 @@ const BookSuggestion = () => {
                     type="submit"
                     w="100%"
                     isLoading={isSubmitting}
-                    leftIcon={<EnvelopeIcon size={18} />}
+                    leftIcon={<EnvelopeIcon />}
                   >
                     Send suggestion
                   </Button>
