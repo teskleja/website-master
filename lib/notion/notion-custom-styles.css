@@ -1,0 +1,65 @@
+.notion-collection-page-properties {
+  display: none;
+}
+
+.notion-page {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.notion-asset-wrapper-video {
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 0px;
+  position: relative;
+  width: 100%;
+}
+
+.notion-asset-wrapper-video video {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* Custom video component styles */
+.notion-video-player {
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.notion-video-error {
+  padding: 2rem;
+  text-align: center;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin: 1rem 0;
+}
+
+.notion-video-loading {
+  padding: 2rem;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.notion-callout .notion-page-icon-inline {
+  align-self: flex-start;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  font-size: 1.3em;
+  max-width: 24px;
+  max-height: 24px;
+  margin: 4px 0px 0px 4px;
+}
+
+.notion-callout .notion-page-icon-inline svg {
+  display: none;
+}
+
+.notion-callout .notion-page-icon-inline.notion-page-icon-image:has(svg) {
+  display: none;
+}
