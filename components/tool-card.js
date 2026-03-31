@@ -12,7 +12,6 @@ import {
   Image,
 } from "@chakra-ui/react";
 // import Image from "./image";
-import { usePalette } from "react-palette";
 import Link from "@/components/link";
 
 const ToolCard = ({
@@ -23,8 +22,6 @@ const ToolCard = ({
   isAffiliate,
   description,
 }) => {
-  const { data, loading, error } = usePalette(image[0].thumbnails.large.url);
-
   return (
     <Link href={link} unstyled>
       <HStack
@@ -51,7 +48,7 @@ const ToolCard = ({
           boxShadow="inset 0 0 1px 1px rgba(0, 0, 0, 0.015)"
         >
           <Box
-            bg={data.lightVibrant}
+            bg="gray.200"
             position="absolute"
             top={0}
             bottom={0}
