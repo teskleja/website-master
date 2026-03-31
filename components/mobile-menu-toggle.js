@@ -1,161 +1,121 @@
 import React from "react";
 import {
-  Box,
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  IconButton,
-  useDisclosure,
-  Input,
   Button,
   VStack,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
   FormControl,
+  FormLabel,
+  Input,
+  Textarea,
+  Box,
   Alert,
   AlertIcon,
-  FormLabel,
-  FormHelperText,
-  Textarea,
-  Tooltip,
-  SimpleGrid,
-  useColorModeValue,
-  Divider,
-  HStack,
+  FormErrorMessage,
 } from "@chakra-ui/react";
-import {
-  GithubLogo,
-  LinkedinLogo,
-  TwitterLogo,
-  YoutubeLogo,
-} from "phosphor-react";
-import { EnvelopeIcon, Bars3Icon } from "@heroicons/react/24/solid";
 import { useForm } from "react-hook-form";
-import MobileMenuButton from "./mobile-menu-button";
-import MobileMenuItem from "./mobile-menu-item";
-import ThemeToggle from "./theme-toggle";
-import Link from "@/components/link";
+import { EnvelopeIcon } from "@heroicons/react/24/solid";
 
-const MobileMenuToggle = ({ mobile }) => {
+const BookSuggestion = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = React.useRef();
 
   const {
     register,
     handleSubmit,
-    watch,
-
     formState: {
       isSubmitting,
       isSubmitSuccessful,
       errors,
     },
   } = useForm();
-  const onSubmit = async (data) => {
-    await sendSuggestion(data);
+
+  // 🔥 NO API CALL (safe)
+  const onSubmit = async () => {
+    return new Promise((resolve) => {
+      setTimeout(resolve, 1000); // fake loading
+    });
   };
 
   return (
     <Box>
-      <Tooltip label="Newsletter">
-        <MobileMenuButton label="Menu" icon={<Bars3Icon />} onClick={onOpen} />
-      </Tooltip>
-      <Drawer
-        isOpen={isOpen}
-        placement="bottom"
-        onClose={onClose}
-        finalFocusRef={btnRef}
-      >
-        <DrawerOverlay>
-          <DrawerContent
-            borderTopRadius="6px"
-            bg={useColorModeValue("neutral.50", "neutralD.50")}
-          >
-            <DrawerCloseButton />
-            <DrawerHeader>Menu</DrawerHeader>
-            <DrawerBody pb={4}>
-              <VStack spacing={4}>
-                <VStack w="100%">
-                  <MobileMenuItem href="/" title="Home" />
-                  <SimpleGrid columns={1} spacing={2} w="100%">
-                    <MobileMenuItem href="/about" title="About" />
-                    <MobileMenuItem href="/blog" title="Blog" />
-                    <MobileMenuItem href="/bookmarks" title="Bookmarks" />
-                    <MobileMenuItem href="/books" title="Books" />
-                    <MobileMenuItem href="/tools" title="Tools" />
-                  </SimpleGrid>
-                </VStack>
+      <Button onClick={onOpen} colorScheme="blue">
+        Suggest me a book
+      </Button>
 
-                <Divider />
-                <HStack justifyContent="center" w="100%">
-                  <HStack spacing={2}>
-                    <Link
-                      href="https://twitter.com/wirtzdan/"
-                      isExternal
-                      unstyled
-                    >
-                      <IconButton
-                        size="sm"
-                        icon={<TwitterLogo weight="fill" />}
-                        color={useColorModeValue(
-                          "neutral.800",
-                          "neutralD.1000"
-                        )}
-                      ></IconButton>
-                    </Link>
-                    <Link
-                      href="https://www.linkedin.com/in/wirtzdan/"
-                      isExternal
-                      unstyled
-                    >
-                      <IconButton
-                        size="sm"
-                        icon={<LinkedinLogo weight="fill" />}
-                        color={useColorModeValue(
-                          "neutral.800",
-                          "neutralD.1000"
-                        )}
-                      ></IconButton>
-                    </Link>
-                    <Link
-                      href="https://github.com/wirtzdan"
-                      isExternal
-                      unstyled
-                    >
-                      <IconButton
-                        size="sm"
-                        icon={<GithubLogo weight="fill" />}
-                        color={useColorModeValue(
-                          "neutral.800",
-                          "neutralD.1000"
-                        )}
-                      ></IconButton>
-                    </Link>
-                    <Link
-                      href="https://www.youtube.com/channel/UCje_bQMr6F45x0Auii7IOvA"
-                      unstyled
-                      isExternal
-                    >
-                      <IconButton
-                        size="sm"
-                        icon={<YoutubeLogo weight="fill" />}
-                        color={useColorModeValue(
-                          "neutral.800",
-                          "neutralD.1000"
-                        )}
-                      ></IconButton>
-                    </Link>
-                  </HStack>
-                </HStack>
+      <Modal isOpen={isOpen} onClose={onClose} motionPreset="slideInBottom">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Book Suggestion</ModalHeader>
+          <ModalCloseButton />
+
+          <ModalBody pb={4}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <VStack spacing={2}>
+                <FormControl isInvalid={errors.title}>
+                  <FormLabel>Title</FormLabel>
+                  <Input
+                    {...register("title", { required: true })}
+                    placeholder="Title"
+                    isDisabled={isSubmitSuccessful}
+                    rounded="lg"
+                  />
+                  <FormErrorMessage>
+                    Title is required
+                  </FormErrorMessage>
+                </FormControl>
+
+                <FormControl isInvalid={errors.author}>
+                  <FormLabel>Author</FormLabel>
+                  <Input
+                    {...register("author", { required: true })}
+                    placeholder="Author"
+                    isDisabled={isSubmitSuccessful}
+                    rounded="lg"
+                  />
+                  <FormErrorMessage>
+                    Author is required
+                  </FormErrorMessage>
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel>Message</FormLabel>
+                  <Textarea
+                    {...register("message")}
+                    placeholder="Write a message..."
+                    isDisabled={isSubmitSuccessful}
+                    rounded="lg"
+                  />
+                </FormControl>
+
+                {isSubmitSuccessful ? (
+                  <Alert status="success" rounded="lg">
+                    <AlertIcon />
+                    Thanks for the suggestion!
+                  </Alert>
+                ) : (
+                  <Button
+                    mt={4}
+                    colorScheme="blue"
+                    type="submit"
+                    w="100%"
+                    isLoading={isSubmitting}
+                    leftIcon={<EnvelopeIcon />}
+                  >
+                    Send suggestion
+                  </Button>
+                )}
               </VStack>
-            </DrawerBody>
-          </DrawerContent>
-        </DrawerOverlay>
-      </Drawer>
+            </form>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };
 
-export default MobileMenuToggle;
+export default BookSuggestion;
